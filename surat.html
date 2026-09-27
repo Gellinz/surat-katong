@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katong for Katong</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #071a3d, #0d3b72, #174f91);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.card {
+    position: relative;
+    width: 330px;
+    height: 440px;
+    cursor: pointer;
+}
+
+.envelope {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #1671d9, #0b4e9c);
+    border-radius: 14px;
+    box-shadow: 0 20px 45px rgba(0,0,0,.35);
+}
+
+.pocket {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 54%;
+    z-index: 2;
+    background: linear-gradient(145deg, #0b5bad, #083e7d);
+    clip-path: polygon(
+        0 0,
+        50% 55%,
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+}
+
+.flap {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 52%;
+    z-index: 4;
+    background: linear-gradient(145deg, #2385ed, #0c5eaf);
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        50% 100%
+    );
+    transform-origin: top;
+    transition: transform .8s ease;
+}
+
+.letter {
+    position: absolute;
+    left: 7%;
+    bottom: 5%;
+    width: 86%;
+    min-height: 355px;
+    padding: 24px 20px;
+    background: white;
+    z-index: 1;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.25);
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all .8s ease;
+    overflow: auto;
+    color: #17304f;
+    line-height: 1.55;
+}
+
+.letter h1 {
+    margin: 0 0 15px;
+    text-align: center;
+    color: #125da8;
+    font-size: 25px;
+}
+
+.letter p {
+    margin: 9px 0;
+    font-size: 14px;
+}
+
+.sign {
+    margin-top: 16px;
+    text-align: right;
+    color: #125da8;
+    font-weight: bold;
+}
+
+.card.open .flap {
+    transform: rotateX(180deg);
+}
+
+.card.open .letter {
+    transform: translateY(-150px);
+    opacity: 1;
+    z-index: 5;
+}
+
+.tap {
+    position: absolute;
+    bottom: 18px;
+    width: 100%;
+    text-align: center;
+    z-index: 6;
+    color: white;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.music {
+    margin-top: 22px;
+    padding: 13px 25px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    color: #125da8;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+
+    <div class="envelope"></div>
+
+    <div class="letter">
+
+        <h1>Katong for Katong</h1>
+
+        <p>
+            Toma palang-palang sa,
+        </p>
+
+        <p>
+            Tapi jang lupa bilang dangke.<br>
+            Tete Manis su bawa sampe<br>
+            sejauh ini.
+        </p>
+
+        <p>
+            Kalau hari ini rasa berat, toma palang-palang sa.
+            Seng apa-apa kalau katong capek.
+            Istirahat dolo, kase tenang katong pung hati.
+        </p>
+
+        <p>
+            Jang talalu keras par katong pung diri sandiri.
+            Pelan-pelan sa.
+            Yang penting katong tetap jalan.
+        </p>
+
+        <p>
+            Katong su sampe sejauh ini.
+            Jadi jang menyerah e.
+            Hari-hari bae masih ada di muka sana.
+        </p>
+
+        <p>
+            <strong>
+                Dangke su bertahan sampe hari ini.<br>
+                Katong berharga. Tetap kuat e.
+            </strong>
+        </p>
+
+        <div class="sign">
+            Tete Manis jaga katong selalu
+        </div>
+
+    </div>
+
+    <div class="pocket"></div>
+
+    <div class="flap"></div>
+
+    <div class="tap">
+        TAP PAR BUKA SURAT
+    </div>
+
+</div>
+
+
+<button class="music" id="musicBtn">
+    PUTAR LAGU
+</button>
+
+
+<audio id="song" preload="auto" loop>
+    <source src="Tinggikan.mp3" type="audio/mpeg">
+</audio>
+
+
+<script>
+
+const card = document.getElementById("card");
+const song = document.getElementById("song");
+const musicBtn = document.getElementById("musicBtn");
+
+card.addEventListener("click", function() {
+    card.classList.toggle("open");
+});
+
+musicBtn.addEventListener("click", async function(event) {
+
+    event.stopPropagation();
+
+    if (song.paused) {
+
+        try {
+            await song.play();
+            musicBtn.textContent = "JEDA LAGU";
+        } catch (error) {
+            alert("Lagu belum bisa diputar. Pastikan Tinggikan.mp3 ada di folder yang sama dengan surat.html.");
+        }
+
+    } else {
+
+        song.pause();
+        musicBtn.textContent = "PUTAR LAGU";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
